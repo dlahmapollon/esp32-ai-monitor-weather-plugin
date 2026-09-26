@@ -1,0 +1,12 @@
+{
+  "current": {
+    "temperature_2m": 18.3,
+    "weather_code": 2,
+    "wind_speed_10m": 14.2,
+    "relative_humidity_2m": 62
+  },
+  "daily": {
+    "temperature_2m_max": [22.1],
+    "temperature_2m_min": [12.6]
+  }
+}
