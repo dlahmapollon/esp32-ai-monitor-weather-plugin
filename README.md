@@ -14,8 +14,17 @@ does not rebuild or reflash firmware.
 
 1. Use a Mac or Windows AI Monitor build with the **Plugins** tab and firmware
    that reports `"sceneProtocol":1` in `get_info`.
-2. In **Plugins**, choose [`weather.aimplugin`](weather.aimplugin), inspect its
-   author, HTTPS data origin, checksum and unsigned state, then install it.
+2. In **Plugins**, paste this direct package URL into the source field:
+
+   ```text
+   https://raw.githubusercontent.com/dlahmapollon/esp32-ai-monitor-weather-plugin/main/weather.aimplugin
+   ```
+
+   Choose **Inspect**, review the author, HTTPS data origin, checksum and
+   unsigned state, then choose **Install**. The repository page URL cannot be
+   used here; the app needs a direct download of the `.aimplugin` file.
+   Alternatively, download [`weather.aimplugin`](weather.aimplugin) and choose
+   the local file in **Plugins**.
 3. In **Display**, add **Weather** to a window and select it. Weather can also
    participate in timed window switching.
 4. Set the city label, latitude and longitude in **Plugins**. The city is a
