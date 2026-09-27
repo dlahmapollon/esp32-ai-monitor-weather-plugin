@@ -1,13 +1,14 @@
-# Weather plugin hardware test
+# Hardware test guide
 
-Record the companion OS and version, ESP32 board variant, firmware version,
-and whether `get_info` reports `"sceneProtocol":1`.
+To check a package on an ESP32, note the companion OS and version, board
+variant and firmware version. The firmware should report `"sceneProtocol":1`
+in `get_info`.
 
-1. Inspect `weather.aimplugin` in **Plugins**. Confirm Weather 1.1.0, author,
-   `https://api.open-meteo.com`, its SHA-256 and unsigned status. Install it.
+1. Inspect the chosen `.aimplugin` file in **Plugins**. Check its version,
+   author, `https://api.open-meteo.com` data origin and SHA-256, then install it.
 2. Place Weather in a new **Display** window and select it. Check city,
    temperature, condition, today's high and low, wind, humidity and
-   Open-Meteo attribution on the actual panel. Take a photo.
+   Open-Meteo attribution on the display.
 3. On a CYD, rotate through portrait and both landscape modes. On an S3,
    check the square layout. Ensure text is readable and does not overlap.
    Switch to another window with touch, then use automatic switching. The AI
@@ -19,6 +20,3 @@ and whether `get_info` reports `"sceneProtocol":1`.
 5. Restart the companion and power cycle the display. Confirm the plugin
    settings, window placement and switching mode survive. Remove Weather and
    confirm its assigned windows become clocks.
-
-The preview PNGs and firmware scene ACKs do not establish what the physical
-display shows. Attach the photo and note any failed step before release.

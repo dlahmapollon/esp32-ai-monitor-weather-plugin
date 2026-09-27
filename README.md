@@ -1,88 +1,73 @@
 # AI Monitor Weather plugin
 
-An independent weather view for the [AI Monitor](https://github.com/tobymarks/esp32-ai-monitor)
-ESP32 companion display. This repository contains the plugin package and its
-source manifest. It is separate from the companion application's plugin manager.
+Weather for the [AI Monitor](https://github.com/tobymarks/esp32-ai-monitor)
+ESP32 display. With compatible firmware, the companion app retrieves current
+conditions from [Open-Meteo](https://open-meteo.com/en/docs) and sends the
+weather view to the display over USB. No API key, ESP32 Wi-Fi connection or
+firmware reflash is needed.
 
-The plugin is declarative: `weather.aimplugin` is a ZIP containing only
-`plugin.json`. It runs no third-party code on the computer or ESP32. The
-companion fetches current conditions from [Open-Meteo](https://open-meteo.com/en/docs)
-over HTTPS and sends a bounded drawing scene over USB. Updating this plugin
-does not rebuild or reflash firmware.
+The plugin packages are declarative `.aimplugin` archives containing only
+`plugin.json`. They run no third-party code on the computer or ESP32.
 
 ## Install
 
-1. Use a Mac or Windows AI Monitor build with the **Plugins** tab and firmware
-   that reports `"sceneProtocol":1` in `get_info`.
-2. In **Plugins**, paste this direct package URL into the source field:
+Choose the package that matches your companion app. Copy its **direct URL**;
+the GitHub repository page URL cannot be used in the app.
 
-   ```text
-   https://raw.githubusercontent.com/dlahmapollon/esp32-ai-monitor-weather-plugin/main/weather.aimplugin
-   ```
+| Package | Features | Companion support |
+| --- | --- | --- |
+| `weather.aimplugin` (v1.1.0) | Weather view in English, dark layout | Display plugins |
+| `weather-localized.aimplugin` (v1.2.0) | German and English text, dark layout | Display plugins and plugin localization |
+| `weather-localized-light.aimplugin` (v1.3.0) | German and English text, dark and light layouts | Display plugins, plugin localization and light scenes |
 
-   Choose **Inspect**, review the author, HTTPS data origin, checksum and
-   unsigned state, then choose **Install**. The repository page URL cannot be
-   used here; the app needs a direct download of the `.aimplugin` file.
-   Alternatively, download [`weather.aimplugin`](weather.aimplugin) and choose
-   the local file in **Plugins**.
-3. In **Display**, add **Weather** to a window and select it. Weather can also
-   participate in timed window switching.
-4. Set the city label, latitude and longitude in **Plugins**. The city is a
-   label only; changing it does not change the coordinates. Use ASCII letters
-   for the label, as required by scene protocol version 1.
+**v1.1.0**
 
-The companion refreshes the assigned weather view about every 15 minutes. It
-shows temperature, condition, today's high and low, wind, humidity and
-Open-Meteo attribution. Portrait, both landscape orientations and the square
-S3 display have separate layouts. Network errors and stale data get a visible
-status screen.
+```text
+https://raw.githubusercontent.com/dlahmapollon/esp32-ai-monitor-weather-plugin/main/weather.aimplugin
+```
 
-## Localized preview
-
-For a companion build with plugin localization support, use this direct URL
-instead of the one above:
+**v1.2.0 — localized**
 
 ```text
 https://raw.githubusercontent.com/dlahmapollon/esp32-ai-monitor-weather-plugin/main/weather-localized.aimplugin
 ```
 
-This package updates the same plugin ID to version 1.2.0. The weather view
-follows the display language selected in the companion (German or English).
-Plugin names and setting labels follow the companion's UI language. German
-display text uses ASCII spellings such as `bewoelkt` because scene protocol
-version 1 does not support umlauts. Released companion builds without plugin
-localization support reject this preview package. The original
-`weather.aimplugin` remains available for those builds.
-
-## Localized light-theme preview
-
-For a companion build with both plugin localization and light-scene support,
-install this direct package URL:
+**v1.3.0 — localized with light theme**
 
 ```text
 https://raw.githubusercontent.com/dlahmapollon/esp32-ai-monitor-weather-plugin/main/weather-localized-light.aimplugin
 ```
 
-This package updates the same plugin ID to version 1.3.0. It keeps the German
-and English display text and adds light layouts for portrait, landscape and
-square displays. The companion selects the layouts from the display theme,
-including the system theme setting. Older companion builds reject this preview
-package; keep using one of the URLs above until both companion changes are
-available.
+1. Open **Plugins** in the Mac or Windows companion app and paste the chosen URL.
+2. Choose **Inspect**, review the package details, then choose **Install**.
+3. In **Display**, add **Weather** to a window and select it. Weather also works
+   with timed window switching.
+4. In **Plugins**, set the city label, latitude and longitude. The city is a
+   label; the coordinates determine the weather location. Use ASCII letters
+   for the label, as required by scene protocol version 1.
+
+You can also download a package from this repository and install it as a local
+file. The companion and firmware must support display plugins (`sceneProtocol: 1`).
+
+The weather view refreshes about every 15 minutes while assigned to a window.
+It shows temperature, condition, today's high and low, wind, humidity and
+Open-Meteo attribution. Portrait, landscape and square displays have separate
+layouts. Version 1.3.0 follows the selected display theme, including the system
+theme setting. German display text uses ASCII spellings such as `bewoelkt`
+because scene protocol version 1 does not support umlauts.
 
 ## Build and validate
 
-Python's standard library is sufficient to rebuild the deterministic localized
-light-theme package:
+Python's standard library builds the deterministic v1.3.0 package:
 
 ```sh
 python3 scripts/package.py
 python3 scripts/package.py --check
 ```
 
-`fixture.json` contains synthetic response data. With the AI Monitor source
-checkout next to this repository, validate the package using the companion's
-shared plugin helper:
+`fixture.json` contains sample weather data. With an AI Monitor source checkout
+next to this repository that supports localization and light scenes, inspect
+and render the package with the shared plugin helper:
 
 ```sh
 cargo run --quiet --locked --manifest-path ../esp32-ai-monitor/companion-windows/Cargo.toml \
@@ -91,25 +76,19 @@ cargo run --quiet --locked --manifest-path ../esp32-ai-monitor/companion-windows
   -p aimonitor-plugin-host -- render weather-localized-light.aimplugin - all fixture.json --locale=de --theme=light
 ```
 
-The dark layout was also rendered with the firmware's native LVGL code at
-240x320, 320x240 and 480x480. Preview images:
+### Dark layout samples
 
 <img src="previews/portrait.png" alt="Portrait weather view" width="160">
 <img src="previews/landscape.png" alt="Landscape weather view" width="213">
 <img src="previews/square.png" alt="Square weather view" width="240">
 
-These previews do not prove panel output, touch or USB timing. Record the real
-device result with [the hardware checklist](docs/hardware-test.md) before
-calling the plugin finished.
-
 ## Data source and trust
 
-The plugin requests current weather, humidity and today's high and low from
-Open-Meteo only while its view is assigned. It needs no API key, location
-permission or ESP32 Wi-Fi connection. Latitude and longitude appear in the
-HTTPS request made by the companion.
+The companion requests weather from Open-Meteo only while the view is assigned.
+Latitude and longitude are included in that HTTPS request. Network errors and
+stale data appear as status screens on the display.
 
 Open-Meteo's [free API terms](https://open-meteo.com/en/terms) restrict free use
-to non-commercial projects and require attribution. The weather scene displays
-"Weather by Open-Meteo.com". The package is currently unsigned; the companion
-shows its SHA-256 checksum during inspection and checks it again at install.
+to non-commercial projects and require attribution. The weather view displays
+"Weather by Open-Meteo.com". Packages are unsigned; the companion displays a
+SHA-256 checksum during inspection and checks it again at installation.
