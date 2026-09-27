@@ -37,9 +37,26 @@ Open-Meteo attribution. Portrait, both landscape orientations and the square
 S3 display have separate layouts. Network errors and stale data get a visible
 status screen.
 
+## Localized preview
+
+For a companion build with plugin localization support, use this direct URL
+instead of the one above:
+
+```text
+https://raw.githubusercontent.com/dlahmapollon/esp32-ai-monitor-weather-plugin/main/weather-localized.aimplugin
+```
+
+This package updates the same plugin ID to version 1.2.0. The weather view
+follows the display language selected in the companion (German or English).
+Plugin names and setting labels follow the companion's UI language. German
+display text uses ASCII spellings such as `bewoelkt` because scene protocol
+version 1 does not support umlauts. Released companion builds without plugin
+localization support reject this preview package. The original
+`weather.aimplugin` remains available for those builds.
+
 ## Build and validate
 
-Python's standard library is sufficient to rebuild the deterministic package:
+Python's standard library is sufficient to rebuild the deterministic localized package:
 
 ```sh
 python3 scripts/package.py
@@ -52,9 +69,9 @@ shared plugin helper:
 
 ```sh
 cargo run --quiet --locked --manifest-path ../esp32-ai-monitor/companion-windows/Cargo.toml \
-  -p aimonitor-plugin-host -- inspect weather.aimplugin
+  -p aimonitor-plugin-host -- inspect weather-localized.aimplugin
 cargo run --quiet --locked --manifest-path ../esp32-ai-monitor/companion-windows/Cargo.toml \
-  -p aimonitor-plugin-host -- render weather.aimplugin - all fixture.json
+  -p aimonitor-plugin-host -- render weather-localized.aimplugin - all fixture.json --locale=de
 ```
 
 The synthetic response was also rendered with the firmware's native LVGL code

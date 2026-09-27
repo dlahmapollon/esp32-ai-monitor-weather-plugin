@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "id": "org.aimonitor.weather",
   "name": "Weather",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": "AI Monitor contributors",
   "description": "Current weather in a configurable location, shown as a dedicated display view.",
   "viewLabel": "Weather",
@@ -32,6 +32,34 @@
       "95": "Thunderstorm", "96": "Thunderstorm", "99": "Thunderstorm"
     }, "fallback": "Weather" }
   ],
+  "localizations": {
+    "de": {
+      "Weather": "Wetter",
+      "Weather data by Open-Meteo.com (CC BY 4.0)": "Wetterdaten von Open-Meteo.com (CC BY 4.0)",
+      "Current weather in a configurable location, shown as a dedicated display view.": "Aktuelles Wetter fuer einen einstellbaren Ort als eigene Display-Ansicht.",
+      "City": "Stadt",
+      "Latitude": "Breitengrad",
+      "Longitude": "Laengengrad",
+      "Location": "Ort",
+      "Clear sky": "Klarer Himmel",
+      "Mostly clear": "Ueberwiegend klar",
+      "Partly cloudy": "Teilweise bewoelkt",
+      "Overcast": "Bedeckt",
+      "Fog": "Nebel",
+      "Drizzle": "Nieselregen",
+      "Rain": "Regen",
+      "Heavy rain": "Starkregen",
+      "Snow": "Schnee",
+      "Heavy snow": "Starker Schneefall",
+      "Showers": "Schauer",
+      "Thunderstorm": "Gewitter",
+      "HIGH / LOW": "HOCH / TIEF",
+      "HI / LO": "HO / TI",
+      "Wind  {{wind}}": "Wind  {{wind}}",
+      "Humidity {{humidity}}%": "Feuchte {{humidity}}%",
+      "Weather by Open-Meteo.com": "Wetter von Open-Meteo.com"
+    }
+  },
   "scenes": {
     "portrait": {
       "background": 1580575,
