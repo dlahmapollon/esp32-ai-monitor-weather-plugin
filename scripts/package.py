@@ -11,7 +11,7 @@ from zipfile import ZIP_DEFLATED, ZipFile, ZipInfo
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "plugin.json"
-PACKAGE = ROOT / "weather-localized.aimplugin"
+PACKAGE = ROOT / "weather-localized-light.aimplugin"
 
 
 def build_package() -> bytes:
@@ -33,7 +33,7 @@ def main() -> None:
     expected = build_package()
     if args.check:
         if not PACKAGE.is_file() or PACKAGE.read_bytes() != expected:
-            parser.error("weather-localized.aimplugin differs from plugin.json; rebuild it")
+            parser.error("weather-localized-light.aimplugin differs from plugin.json; rebuild it")
         with ZipFile(PACKAGE) as archive:
             if archive.namelist() != ["plugin.json"]:
                 parser.error("package must contain only plugin.json")

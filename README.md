@@ -54,9 +54,26 @@ version 1 does not support umlauts. Released companion builds without plugin
 localization support reject this preview package. The original
 `weather.aimplugin` remains available for those builds.
 
+## Localized light-theme preview
+
+For a companion build with both plugin localization and light-scene support,
+install this direct package URL:
+
+```text
+https://raw.githubusercontent.com/dlahmapollon/esp32-ai-monitor-weather-plugin/main/weather-localized-light.aimplugin
+```
+
+This package updates the same plugin ID to version 1.3.0. It keeps the German
+and English display text and adds light layouts for portrait, landscape and
+square displays. The companion selects the layouts from the display theme,
+including the system theme setting. Older companion builds reject this preview
+package; keep using one of the URLs above until both companion changes are
+available.
+
 ## Build and validate
 
-Python's standard library is sufficient to rebuild the deterministic localized package:
+Python's standard library is sufficient to rebuild the deterministic localized
+light-theme package:
 
 ```sh
 python3 scripts/package.py
@@ -69,13 +86,13 @@ shared plugin helper:
 
 ```sh
 cargo run --quiet --locked --manifest-path ../esp32-ai-monitor/companion-windows/Cargo.toml \
-  -p aimonitor-plugin-host -- inspect weather-localized.aimplugin
+  -p aimonitor-plugin-host -- inspect weather-localized-light.aimplugin
 cargo run --quiet --locked --manifest-path ../esp32-ai-monitor/companion-windows/Cargo.toml \
-  -p aimonitor-plugin-host -- render weather-localized.aimplugin - all fixture.json --locale=de
+  -p aimonitor-plugin-host -- render weather-localized-light.aimplugin - all fixture.json --locale=de --theme=light
 ```
 
-The synthetic response was also rendered with the firmware's native LVGL code
-at 240x320, 320x240 and 480x480. Preview images:
+The dark layout was also rendered with the firmware's native LVGL code at
+240x320, 320x240 and 480x480. Preview images:
 
 <img src="previews/portrait.png" alt="Portrait weather view" width="160">
 <img src="previews/landscape.png" alt="Landscape weather view" width="213">
