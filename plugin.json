@@ -1,8 +1,8 @@
 {
-  "formatVersion": 1,
+  "formatVersion": 2,
   "id": "org.aimonitor.weather",
   "name": "Weather",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "author": "AI Monitor contributors",
   "description": "Current weather in a configurable location, shown as a dedicated display view.",
   "viewLabel": "Weather",
@@ -12,6 +12,10 @@
     "url": "https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&current=temperature_2m,weather_code,wind_speed_10m,relative_humidity_2m&daily=temperature_2m_max,temperature_2m_min&forecast_days=1&timezone=auto",
     "intervalSeconds": 900
   },
+  "attentionRules": [
+    { "id": "precipitation-start", "path": "current.weather_code", "operator": "atLeast", "value": 51 },
+    { "id": "thunderstorm-start", "path": "current.weather_code", "operator": "atLeast", "value": 95 }
+  ],
   "settings": [
     { "key": "city", "label": "City", "kind": "text", "default": "Berlin", "min": null, "max": null },
     { "key": "latitude", "label": "Latitude", "kind": "number", "default": 52.52, "min": -90, "max": 90 },
@@ -27,9 +31,11 @@
     { "name": "condition", "path": "current.weather_code", "format": "map", "suffix": "", "map": {
       "0": "Clear sky", "1": "Mostly clear", "2": "Partly cloudy", "3": "Overcast",
       "45": "Fog", "48": "Fog", "51": "Drizzle", "53": "Drizzle", "55": "Drizzle",
-      "61": "Rain", "63": "Rain", "65": "Heavy rain", "71": "Snow", "73": "Snow",
-      "75": "Heavy snow", "80": "Showers", "81": "Showers", "82": "Showers",
-      "95": "Thunderstorm", "96": "Thunderstorm", "99": "Thunderstorm"
+      "56": "Drizzle", "57": "Drizzle", "61": "Rain", "63": "Rain", "65": "Heavy rain",
+      "66": "Rain", "67": "Heavy rain", "71": "Snow", "73": "Snow", "75": "Heavy snow",
+      "77": "Snow", "80": "Showers", "81": "Showers", "82": "Showers",
+      "85": "Showers", "86": "Showers", "95": "Thunderstorm", "96": "Thunderstorm",
+      "97": "Thunderstorm", "99": "Thunderstorm"
     }, "fallback": "Weather" }
   ],
   "localizations": {

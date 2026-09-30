@@ -20,3 +20,22 @@ in `get_info`.
 5. Restart the companion and power cycle the display. Confirm the plugin
    settings, window placement and switching mode survive. Remove Weather and
    confirm its assigned windows become clocks.
+
+
+## Intelligent switching (v1.4.0)
+
+Install `weather-intelligent.aimplugin` in a companion that supports plugin
+format 2. Assign it to a window and choose Intelligent switching. A first
+successful weather fetch establishes the baseline. When the reported WMO code
+changes from 0-48 to 51 or higher, Weather should be selected after the
+minimum dwell. While precipitation continues, subsequent updates should not
+switch again. A change from precipitation to code 95 or higher should request
+a new switch, subject to the companion's cooldown and manual touch hold.
+For a deterministic Windows hardware test, set `AIMONITOR_PLUGIN_FIXTURE_DIR`
+to a local directory before starting the companion and put a copy of `fixture.json`
+there named `org.aimonitor.weather.json`. The companion reads that file on each
+plugin fetch. Change `current.weather_code` from 2 to 61, then to 95, waiting
+for a fetch after each edit (up to 15 minutes with the release package). Do
+not save plugin settings between samples: that resets the trigger baseline.
+The Mac companion fetches the live Open-Meteo endpoint; this fixture override
+is currently Windows-only. Without a fixture, wait for actual weather changes.
