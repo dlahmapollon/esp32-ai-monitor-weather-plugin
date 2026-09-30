@@ -39,11 +39,13 @@ https://raw.githubusercontent.com/dlahmapollon/esp32-ai-monitor-weather-plugin/m
 https://raw.githubusercontent.com/dlahmapollon/esp32-ai-monitor-weather-plugin/main/weather-localized-light.aimplugin
 ```
 
-**v1.4.0 — intelligent weather switching**
+**v1.4.0 — intelligent weather switching (test branch)**
 
 ```text
-https://raw.githubusercontent.com/dlahmapollon/esp32-ai-monitor-weather-plugin/main/weather-intelligent.aimplugin
+https://raw.githubusercontent.com/dlahmapollon/esp32-ai-monitor-weather-plugin/codex/intelligent-weather-triggers/weather-intelligent.aimplugin
 ```
+
+The URL will use `main` after this branch is merged.
 
 1. Open **Plugins** in the Mac or Windows companion app and paste the chosen URL.
 2. Choose **Inspect**, review the package details, then choose **Install**.
