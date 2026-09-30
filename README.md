@@ -19,6 +19,7 @@ the GitHub repository page URL cannot be used in the app.
 | `weather.aimplugin` (v1.1.0) | Weather view in English, dark layout | Display plugins |
 | `weather-localized.aimplugin` (v1.2.0) | German and English text, dark layout | Display plugins and plugin localization |
 | `weather-localized-light.aimplugin` (v1.3.0) | German and English text, dark and light layouts | Display plugins, plugin localization and light scenes |
+| `weather-intelligent.aimplugin` (v1.4.0) | v1.3.0 features plus intelligent weather triggers | Companion with plugin format 2 and Intelligent switching |
 
 **v1.1.0**
 
@@ -38,6 +39,12 @@ https://raw.githubusercontent.com/dlahmapollon/esp32-ai-monitor-weather-plugin/m
 https://raw.githubusercontent.com/dlahmapollon/esp32-ai-monitor-weather-plugin/main/weather-localized-light.aimplugin
 ```
 
+**v1.4.0 — intelligent weather switching**
+
+```text
+https://raw.githubusercontent.com/dlahmapollon/esp32-ai-monitor-weather-plugin/main/weather-intelligent.aimplugin
+```
+
 1. Open **Plugins** in the Mac or Windows companion app and paste the chosen URL.
 2. Choose **Inspect**, review the package details, then choose **Install**.
 3. In **Display**, add **Weather** to a window and select it. Weather also works
@@ -53,12 +60,20 @@ The weather view refreshes about every 15 minutes while assigned to a window.
 It shows temperature, condition, today's high and low, wind, humidity and
 Open-Meteo attribution. Portrait, landscape and square displays have separate
 layouts. Version 1.3.0 follows the selected display theme, including the system
-theme setting. German display text uses ASCII spellings such as `bewoelkt`
+theme setting. Version 1.4.0 also requests an intelligent switch when current
+weather first changes from dry or foggy to precipitation (Open-Meteo WMO code
+51 or higher), or when ongoing precipitation first becomes a thunderstorm
+(code 95 or higher). The first successful fetch only establishes a baseline;
+unchanged rain or storm reports do not keep switching the display. A later
+dry-to-rain transition can trigger again, subject to the companion cooldown.
+The companion also enforces its minimum dwell and manual touch hold. Assign
+Weather to a window and select Intelligent switching to use these triggers.
+German display text uses ASCII spellings such as `bewoelkt`
 because scene protocol version 1 does not support umlauts.
 
 ## Build and validate
 
-Python's standard library builds the deterministic v1.3.0 package:
+Python's standard library builds the deterministic v1.4.0 package:
 
 ```sh
 python3 scripts/package.py
@@ -71,9 +86,9 @@ and render the package with the shared plugin helper:
 
 ```sh
 cargo run --quiet --locked --manifest-path ../esp32-ai-monitor/companion-windows/Cargo.toml \
-  -p aimonitor-plugin-host -- inspect weather-localized-light.aimplugin
+  -p aimonitor-plugin-host -- inspect weather-intelligent.aimplugin
 cargo run --quiet --locked --manifest-path ../esp32-ai-monitor/companion-windows/Cargo.toml \
-  -p aimonitor-plugin-host -- render weather-localized-light.aimplugin - all fixture.json --locale=de --theme=light
+  -p aimonitor-plugin-host -- render weather-intelligent.aimplugin - all fixture.json --locale=de --theme=light
 ```
 
 ### Dark layout samples
