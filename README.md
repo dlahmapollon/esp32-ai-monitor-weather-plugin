@@ -107,3 +107,7 @@ Open-Meteo's [free API terms](https://open-meteo.com/en/terms) restrict free use
 to non-commercial projects and require attribution. The weather view displays
 "Weather by Open-Meteo.com". Packages are unsigned; the companion displays a
 SHA-256 checksum during inspection and checks it again at installation.
+
+## License
+
+Licensed under the [MIT License](LICENSE).
