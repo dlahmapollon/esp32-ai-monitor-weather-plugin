@@ -20,6 +20,7 @@ the GitHub repository page URL cannot be used in the app.
 | `weather-localized.aimplugin` (v1.2.0) | German and English text, dark layout | Display plugins and plugin localization |
 | `weather-localized-light.aimplugin` (v1.3.0) | German and English text, dark and light layouts | Display plugins, plugin localization and light scenes |
 | `weather-intelligent.aimplugin` (v1.4.0) | v1.3.0 features plus intelligent weather triggers | Companion with plugin format 2 and Intelligent switching |
+| `weather-location.aimplugin` (v1.5.0) | v1.4.0 features, using the location stored for each display | Companion with plugin format 3 and display locations |
 
 **v1.1.0**
 
@@ -45,13 +46,24 @@ https://raw.githubusercontent.com/dlahmapollon/esp32-ai-monitor-weather-plugin/m
 https://raw.githubusercontent.com/dlahmapollon/esp32-ai-monitor-weather-plugin/main/weather-intelligent.aimplugin
 ```
 
+**v1.5.0 — display location**
+
+```text
+https://raw.githubusercontent.com/dlahmapollon/esp32-ai-monitor-weather-plugin/main/weather-location.aimplugin
+```
+
 1. Open **Plugins** in the Mac or Windows companion app and paste the chosen URL.
 2. Choose **Inspect**, review the package details, then choose **Install**.
 3. In **Display**, add **Weather** to a window and select it. Weather also works
    with timed window switching.
-4. In **Plugins**, set the city label, latitude and longitude. The city is a
-   label; the coordinates determine the weather location. Use ASCII letters
-   for the label, as required by scene protocol version 1.
+4. Up to v1.4.0: in **Plugins**, set the city label, latitude and longitude.
+   The city is a label; the coordinates determine the weather location. Use
+   ASCII letters for the label, as required by scene protocol version 1.
+   From v1.5.0: in **Display**, set the location of the connected display.
+   The plugin has no settings of its own; the companion supplies the
+   coordinates and the place name, with umlauts written as ASCII (`Koeln`).
+   Each display keeps its own location, so one computer can show the weather
+   for several places. Without a location the window shows a hint.
 
 You can also download a package from this repository and install it as a local
 file. The companion and firmware must support display plugins (`sceneProtocol: 1`).
@@ -73,7 +85,7 @@ because scene protocol version 1 does not support umlauts.
 
 ## Build and validate
 
-Python's standard library builds the deterministic v1.4.0 package:
+Python's standard library builds the deterministic v1.5.0 package:
 
 ```sh
 python3 scripts/package.py
@@ -81,14 +93,15 @@ python3 scripts/package.py --check
 ```
 
 `fixture.json` contains sample weather data. With an AI Monitor source checkout
-next to this repository that supports localization and light scenes, inspect
+next to this repository that supports plugin format 3, inspect
 and render the package with the shared plugin helper:
 
 ```sh
 cargo run --quiet --locked --manifest-path ../esp32-ai-monitor/companion-windows/Cargo.toml \
-  -p aimonitor-plugin-host -- inspect weather-intelligent.aimplugin
+  -p aimonitor-plugin-host -- inspect weather-location.aimplugin
 cargo run --quiet --locked --manifest-path ../esp32-ai-monitor/companion-windows/Cargo.toml \
-  -p aimonitor-plugin-host -- render weather-intelligent.aimplugin - all fixture.json --locale=de --theme=light
+  -p aimonitor-plugin-host -- render weather-location.aimplugin - all fixture.json --locale=de --theme=light \
+  '--location={"name":"Berlin","latitude":52.52,"longitude":13.41}'
 ```
 
 ### Dark layout samples
@@ -100,7 +113,9 @@ cargo run --quiet --locked --manifest-path ../esp32-ai-monitor/companion-windows
 ## Data source and trust
 
 The companion requests weather from Open-Meteo only while the view is assigned.
-Latitude and longitude are included in that HTTPS request. Network errors and
+Latitude and longitude are included in that HTTPS request. From v1.5.0 these
+are the coordinates stored for the connected display, sent with three decimals;
+the companion states this before installation. Network errors and
 stale data appear as status screens on the display.
 
 Open-Meteo's [free API terms](https://open-meteo.com/en/terms) restrict free use

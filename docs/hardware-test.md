@@ -39,3 +39,19 @@ for a fetch after each edit (up to 15 minutes with the release package). Do
 not save plugin settings between samples: that resets the trigger baseline.
 The Mac companion fetches the live Open-Meteo endpoint; this fixture override
 is currently Windows-only. Without a fixture, wait for actual weather changes.
+
+## Display location (v1.5.0)
+
+Install `weather-location.aimplugin` in a companion that supports plugin
+format 3. The preview must state that the display location is sent to
+`https://api.open-meteo.com`, and the installed plugin has no settings.
+
+1. Assign Weather to a window before a location is set. The display should
+   show the missing-location hint and the companion should not request data.
+2. In **Display**, search for a place or an address and apply it. Weather
+   should load and show the place name, with umlauts written as ASCII.
+3. Choose another place. The window should show the loading screen and then
+   the new values, never the previous place's data.
+4. Remove the location. The window should return to the hint.
+5. Connect a second display. It must not inherit the location; give it a
+   different place and confirm each display shows its own weather.

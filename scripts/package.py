@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build or verify the deterministic intelligent weather plugin package."""
+"""Build or verify the deterministic display-location weather plugin package."""
 
 import argparse
 import hashlib
@@ -11,7 +11,7 @@ from zipfile import ZIP_DEFLATED, ZipFile, ZipInfo
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "plugin.json"
-PACKAGE = ROOT / "weather-intelligent.aimplugin"
+PACKAGE = ROOT / "weather-location.aimplugin"
 
 
 def build_package() -> bytes:

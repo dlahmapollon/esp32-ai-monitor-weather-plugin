@@ -1,28 +1,25 @@
 {
-  "formatVersion": 2,
+  "formatVersion": 3,
   "id": "org.aimonitor.weather",
   "name": "Weather",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "author": "AI Monitor contributors",
-  "description": "Current weather in a configurable location, shown as a dedicated display view.",
+  "description": "Current weather at the display's location, shown as a dedicated display view.",
   "viewLabel": "Weather",
   "attribution": "Weather data by Open-Meteo.com (CC BY 4.0)",
   "minSceneProtocol": 1,
   "source": {
-    "url": "https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&current=temperature_2m,weather_code,wind_speed_10m,relative_humidity_2m&daily=temperature_2m_max,temperature_2m_min&forecast_days=1&timezone=auto",
+    "url": "https://api.open-meteo.com/v1/forecast?latitude={location.latitude}&longitude={location.longitude}&current=temperature_2m,weather_code,wind_speed_10m,relative_humidity_2m&daily=temperature_2m_max,temperature_2m_min&forecast_days=1&timezone=auto",
     "intervalSeconds": 900
   },
   "attentionRules": [
     { "id": "precipitation-start", "path": "current.weather_code", "operator": "atLeast", "value": 51 },
     { "id": "thunderstorm-start", "path": "current.weather_code", "operator": "atLeast", "value": 95 }
   ],
-  "settings": [
-    { "key": "city", "label": "City", "kind": "text", "default": "Berlin", "min": null, "max": null },
-    { "key": "latitude", "label": "Latitude", "kind": "number", "default": 52.52, "min": -90, "max": 90 },
-    { "key": "longitude", "label": "Longitude", "kind": "number", "default": 13.41, "min": -180, "max": 180 }
-  ],
+  "requires": ["location"],
+  "settings": [],
   "bindings": [
-    { "name": "city", "path": "settings.city", "format": "text", "suffix": "", "map": {}, "fallback": "Location" },
+    { "name": "city", "path": "location.name", "format": "text", "suffix": "", "map": {}, "fallback": "Location" },
     { "name": "temperature", "path": "current.temperature_2m", "format": "integer", "suffix": " C", "map": {}, "fallback": "-- C" },
     { "name": "wind", "path": "current.wind_speed_10m", "format": "integer", "suffix": " km/h", "map": {}, "fallback": "-- km/h" },
     { "name": "humidity", "path": "current.relative_humidity_2m", "format": "integer", "suffix": "", "map": {}, "fallback": "0" },
@@ -42,10 +39,7 @@
     "de": {
       "Weather": "Wetter",
       "Weather data by Open-Meteo.com (CC BY 4.0)": "Wetterdaten von Open-Meteo.com (CC BY 4.0)",
-      "Current weather in a configurable location, shown as a dedicated display view.": "Aktuelles Wetter fuer einen einstellbaren Ort als eigene Display-Ansicht.",
-      "City": "Stadt",
-      "Latitude": "Breitengrad",
-      "Longitude": "Laengengrad",
+      "Current weather at the display's location, shown as a dedicated display view.": "Aktuelles Wetter am Standort des Displays als eigene Display-Ansicht.",
       "Location": "Ort",
       "Clear sky": "Klarer Himmel",
       "Mostly clear": "Ueberwiegend klar",
