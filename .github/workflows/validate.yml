@@ -14,3 +14,16 @@ jobs:
           python-version: '3.11'
       - name: Check manifest and deterministic package
         run: python3 scripts/package.py --check
+
+      - uses: actions/checkout@v4
+        with:
+          repository: dlahmapollon/esp32-ai-monitor
+          ref: 01743b7b4b8da083a3c20de1b2e7b5b36989c176
+          path: .contract-host
+      - name: Build format-4 plugin host
+        run: cargo build --locked --manifest-path .contract-host/companion-windows/Cargo.toml -p aimonitor-plugin-host
+      - name: Validate configured URL package and all layouts
+        run: |
+          .contract-host/companion-windows/target/debug/aimonitor-plugin-host inspect weather-url.aimplugin
+          .contract-host/companion-windows/target/debug/aimonitor-plugin-host render weather-url.aimplugin - all fixture.json --theme=dark --locale=de
+          .contract-host/companion-windows/target/debug/aimonitor-plugin-host render weather-url.aimplugin - all fixture.json --theme=light --locale=en
